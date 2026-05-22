@@ -1,0 +1,13 @@
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+
+added 178 packages, and audited 179 packages in 25s
+
+27 packages are looking for funding
+  run `npm fund` for details
+
+1 high severity vulnerability
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.

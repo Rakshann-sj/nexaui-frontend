@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_TASK",
+  "summary": "Task checklist for building the NexaUI backend. Tracks all 25+ files across server, config, middleware, models, routes, and controllers.",
+  "updatedAt": "2026-05-20T09:15:40.054674900Z"
+}
