@@ -646,16 +646,59 @@
   }
 
   /* ---- CONTACT FORM ---- */
-  function submitForm() {
-    const n = document.getElementById('f-name').value.trim();
-    const e = document.getElementById('f-email').value.trim();
-    const m = document.getElementById('f-msg').value.trim();
-    if (!n || !e || !m) { showToast('⚠️ Please fill in all fields'); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) { showToast('⚠️ Enter a valid email'); return; }
-    showToast(`✅ Message sent! Thanks, ${n}!`);
-    ['f-name','f-email','f-subject','f-msg'].forEach(id => document.getElementById(id).value = '');
+async function submitForm() {
+  const n = document.getElementById('f-name').value.trim();
+  const e = document.getElementById('f-email').value.trim();
+  const s = document.getElementById('f-subject').value.trim();
+  const m = document.getElementById('f-msg').value.trim();
+
+  // Validation
+  if (!n || !e || !m) {
+    showToast('⚠️ Please fill in all fields');
+    return;
   }
 
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+    showToast('⚠️ Enter a valid email');
+    return;
+  }
+
+  try {
+    // Send data to backend
+    const res = await fetch('http://172.21.212.175:5000/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: n,
+        email: e,
+        subject: s,
+        message: m
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      showToast(`✅ Message stored in database! Thanks, ${n}!`);
+
+      // Clear form
+      ['f-name','f-email','f-subject','f-msg']
+        .forEach(id => document.getElementById(id).value = '');
+
+      console.log(data);
+
+    } else {
+      console.log(data);
+      showToast('❌ Backend error');
+    }
+
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Cannot connect backend');
+  }
+}
   /* ---- TOAST ---- */
   let toastTimer;
   function showToast(msg) {
